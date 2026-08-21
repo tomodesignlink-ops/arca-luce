@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCA LUCE | ご予約</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --sage:#7a9e8e;--sage-dark:#5c7a6a;--sage-light:#a8c5b5;--sage-bg:#eef5f2;
+  --cream:#f5f0e8;--cream-dark:#ede8df;--warm-white:#faf8f5;
+  --text-dark:#2c2520;--text-mid:#5a5450;--text-light:#9a9490;
+  --avail:#2a7a5a;--avail-bg:#e8f5f0;--avail-border:#a8d8c8;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans JP',sans-serif;background:#f5f2ec;color:var(--text-dark);font-weight:400;min-height:100vh;}
+
+nav{background:rgba(250,248,245,0.97);backdrop-filter:blur(8px);border-bottom:0.5px solid rgba(122,158,142,0.2);padding:0 clamp(1rem,4vw,2.5rem);display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:0.15em;color:var(--text-dark);text-decoration:none;}
+.nav-logo span{font-size:1.14rem;letter-spacing:0.28em;color:var(--text-light);margin-left:0.5rem;font-family:'Noto Sans JP',sans-serif;}
+.nav-back{font-size:1.08rem;color:var(--text-mid);text-decoration:none;display:flex;align-items:center;gap:0.35rem;}
+.nav-back:hover{color:var(--sage);}
+
+.page{max-width:900px;margin:0 auto;padding:clamp(1.5rem,4vw,2.5rem) clamp(0.75rem,3vw,1.5rem) 5rem;}
+
+/* STEPS */
+.steps{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:2rem;flex-wrap:wrap;gap:0.3rem;}
+.step{display:flex;align-items:center;gap:0.4rem;font-size:1.02rem;letter-spacing:0.06em;color:var(--text-light);}
+.step.active{color:var(--sage);}
+.step.done{color:var(--sage-light);}
+.step-num{width:22px;height:22px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.12rem;flex-shrink:0;}
+.step.active .step-num{background:var(--sage);border-color:var(--sage);color:white;}
+.step.done .step-num{background:var(--sage-light);border-color:var(--sage-light);color:white;}
+.step-line{width:clamp(12px,3vw,32px);height:1px;background:var(--cream-dark);margin:0 0.2rem;}
+
+/* SECTION CARD */
+.section-card{background:white;border-radius:0.75rem;border:0.5px solid var(--cream-dark);box-shadow:0 2px 16px rgba(0,0,0,0.05);margin-bottom:1.2rem;overflow:hidden;}
+.section-head{padding:0.9rem 1.3rem;border-bottom:0.5px solid var(--cream-dark);background:var(--warm-white);display:flex;align-items:center;gap:0.6rem;}
+.section-num{width:22px;height:22px;border-radius:50%;background:var(--sage);color:white;font-family:'Cormorant Garamond',serif;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.section-head h3{font-size:1rem;letter-spacing:0.12em;color:var(--text-mid);font-weight:400;}
+.section-body{padding:1.1rem 1.3rem;}
+
+/* メニュー選択 */
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.65rem;}
+.menu-option{border:1.5px solid var(--cream-dark);border-radius:0.6rem;padding:0.9rem 1rem;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:0.75rem;background:var(--warm-white);}
+.menu-option:hover{border-color:var(--sage-light);background:var(--sage-bg);}
+.menu-option.selected{border-color:var(--sage);background:var(--sage-bg);}
+.menu-option.selected .menu-icon{background:var(--sage);color:white;}
+.menu-icon{width:38px;height:38px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sage);transition:all 0.15s;}
+.menu-icon svg{width:18px;height:18px;}
+.menu-info{}
+.menu-name{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:400;color:var(--text-dark);margin-bottom:0.15rem;letter-spacing:0.04em;}
+.menu-detail{font-size:1.02rem;color:var(--text-light);letter-spacing:0.04em;}
+
+/* 週テーブル */
+.week-nav{display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1.2rem;border-bottom:0.5px solid var(--cream-dark);}
+.week-label{font-family:'Noto Sans JP',serif;font-size:1.12rem;letter-spacing:0.1em;}
+.week-btn{background:none;border:0.5px solid var(--cream-dark);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1.12rem;display:flex;align-items:center;justify-content:center;color:var(--text-mid);transition:all 0.15s;}
+.week-btn:hover{border-color:var(--sage);color:var(--sage);}
+.week-btn:disabled{opacity:0.3;cursor:default;}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;min-width:440px;}
+thead th{border-bottom:0.5px solid var(--cream-dark);font-weight:400;}
+.th-time{width:50px;background:var(--warm-white);border-right:0.5px solid var(--cream-dark);}
+.th-date{text-align:center;padding:0.55rem 0.2rem;min-width:68px;}
+.th-date .dow{font-size:1rem;letter-spacing:0.1em;color:var(--text-light);margin-bottom:0.1rem;}
+.th-date .day{font-family:'Noto Sans JP',serif;font-size:1.2rem;color:var(--text-dark);line-height:1;}
+.th-date .month{font-size:1.12rem;color:var(--text-light);margin-top:0.08rem;}
+.th-date.today .day,.th-date.today .dow{color:var(--sage);}
+.th-date.sun .dow,.th-date.sun .day{color:#c0392b;}
+.th-date.sat .dow,.th-date.sat .day{color:var(--sage-dark);}
+.td-time{background:var(--warm-white);border-right:0.5px solid var(--cream-dark);padding:0 0.25rem;text-align:center;font-family:'Noto Sans JP',serif;font-size:0.87rem;color:var(--text-light);white-space:nowrap;vertical-align:middle;}
+tbody tr{border-bottom:0.5px solid var(--cream-dark);}
+tbody tr:last-child{border-bottom:none;}
+.slot-td{padding:2px 3px;vertical-align:middle;}
+.slot-avail{display:flex;align-items:center;justify-content:center;min-height:38px;border-radius:5px;cursor:pointer;background:var(--avail-bg);border:1.5px solid var(--avail-border);transition:all 0.13s;}
+.slot-avail:hover{background:#d0eee4;border-color:var(--avail);transform:scale(1.04);}
+.slot-avail .mark{font-size:1rem;color:var(--avail);}
+.slot-avail.picked{background:var(--sage)!important;border-color:var(--sage-dark)!important;}
+.slot-avail.picked .mark{color:white!important;}
+/* 時間が足りない（予約可能枠が続かない） */
+.slot-avail.no-room{background:#fff9e8;border-color:#e8d0a0;cursor:not-allowed;}
+.slot-avail.no-room:hover{transform:none;background:#fff9e8;}
+.slot-avail.no-room .mark{color:#c8a840;}
+.slot-unavail{display:flex;align-items:center;justify-content:center;min-height:38px;border-radius:5px;background:#f0f0f0;border:1px solid #e2e2e2;}
+.slot-unavail .mark{font-size:1rem;color:#ccc;}
+.legend{display:flex;gap:1rem;padding:0.6rem 1.2rem;border-top:0.5px solid var(--cream-dark);flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:0.35rem;font-size:1.02rem;color:var(--text-light);}
+.legend-box{width:13px;height:13px;border-radius:3px;}
+.l-avail{background:var(--avail-bg);border:1px solid var(--avail-border);}
+.l-noroom{background:#fff9e8;border:1px solid #e8d0a0;}
+.l-unavail{background:#f0f0f0;border:1px solid #e2e2e2;}
+.l-picked{background:var(--sage);}
+
+/* 選択バッジ */
+.selected-summary{background:var(--sage-bg);border:0.5px solid var(--avail-border);border-radius:0.5rem;padding:0.8rem 1.1rem;margin-bottom:1.3rem;display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;}
+.selected-summary span{font-size:1.14rem;color:var(--avail);display:flex;align-items:center;gap:0.4rem;}
+
+/* フォーム */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;}
+.form-group{margin-bottom:0.8rem;}
+.form-label{font-size:0.86rem;letter-spacing:0.1em;color:var(--text-mid);margin-bottom:0.35rem;display:flex;align-items:center;gap:0.35rem;}
+.form-req{background:var(--sage);color:white;font-size:1.12rem;padding:0.08rem 0.38rem;border-radius:0.18rem;}
+.form-input,.form-select,.form-textarea{width:100%;padding:0.68rem 0.9rem;border:0.5px solid var(--cream-dark);border-radius:0.4rem;font-size:1rem;font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--text-dark);background:white;outline:none;transition:border-color 0.2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--sage);}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text-light);}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.9;}
+.radio-group{display:flex;gap:1.1rem;padding-top:0.3rem;flex-wrap:wrap;}
+.radio-item{display:flex;align-items:center;gap:0.35rem;font-size:1.14rem;color:var(--text-mid);cursor:pointer;}
+.radio-item input{accent-color:var(--sage);}
+.btn-confirm{width:100%;background:var(--sage);color:white;border:none;padding:0.95rem;border-radius:2rem;font-size:0.96rem;letter-spacing:0.18em;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-weight:400;margin-top:0.5rem;transition:background 0.2s;}
+.btn-confirm:hover{background:var(--sage-dark);}
+.form-note{text-align:center;font-size:0.84rem;color:var(--text-light);margin-top:0.45rem;}
+
+/* 確認モーダル */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:center;justify-content:center;padding:1rem;}
+.modal-bg.show{display:flex;}
+.modal{background:white;border-radius:1rem;width:100%;max-width:480px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.15);animation:modalIn 0.28s cubic-bezier(0.22,1,0.36,1);}
+@keyframes modalIn{from{transform:translateY(18px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.modal-header{background:var(--sage-bg);border-bottom:0.5px solid var(--avail-border);padding:1.1rem 1.4rem;}
+.modal-header h3{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:400;letter-spacing:0.1em;}
+.modal-header p{font-size:0.87rem;color:var(--text-mid);margin-top:0.2rem;}
+.modal-body{padding:1.3rem 1.4rem;}
+.confirm-row{display:flex;align-items:baseline;gap:0.7rem;padding:0.6rem 0;border-bottom:0.5px solid var(--cream-dark);}
+.confirm-row:last-child{border-bottom:none;}
+.confirm-label{font-size:1.02rem;letter-spacing:0.12em;color:var(--text-light);min-width:80px;flex-shrink:0;}
+.confirm-val{font-size:1.03rem;color:var(--text-dark);line-height:1.6;}
+.confirm-val strong{font-family:'Noto Serif JP',serif;font-weight:400;color:var(--sage-dark);}
+.modal-footer{padding:1.1rem 1.4rem;border-top:0.5px solid var(--cream-dark);display:flex;gap:0.7rem;}
+.btn-modal-cancel{flex:1;background:white;border:0.5px solid var(--cream-dark);padding:0.78rem;border-radius:2rem;font-size:1.1rem;letter-spacing:0.1em;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:var(--text-mid);transition:all 0.2s;}
+.btn-modal-cancel:hover{border-color:var(--text-mid);}
+.btn-modal-ok{flex:2;background:var(--sage);color:white;border:none;padding:0.78rem;border-radius:2rem;font-size:1.1rem;letter-spacing:0.14em;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:background 0.2s;}
+.btn-modal-ok:hover{background:var(--sage-dark);}
+
+/* disabled section */
+.section-card.disabled{opacity:0.45;pointer-events:none;}
+.section-card.disabled .section-head{background:var(--cream);}
+
+@media(max-width:480px){
+  .form-row{grid-template-columns:1fr;}
+  .menu-grid{grid-template-columns:1fr 1fr;}
+  .th-date{min-width:50px;}
+  .th-date .day{font-size:1rem;}
+  .slot-avail,.slot-unavail{min-height:34px;}
+  .slot-avail .mark,.slot-unavail .mark{font-size:1.05rem;}
+  .td-time{font-size:1.02rem;}
+}
+</style>
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // ★ EmailJS設定 ★ 下の3つを自分のものに書き換えてください
+    const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // EmailJSのPublic Key
+    const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // EmailJSのService ID
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // EmailJSのTemplate ID
+  </script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">ARCA LUCE <span>介 護 美 容</span></a>
+  <a class="nav-back" href="index.html">← サイトへ戻る</a>
+</nav>
+
+<div class="page">
+  <!-- ステップ -->
+  <div class="steps" id="stepsBar">
+    <div class="step active" id="s1"><div class="step-num">1</div><span>メニュー</span></div>
+    <div class="step-line"></div>
+    <div class="step" id="s2"><div class="step-num">2</div><span>日時</span></div>
+    <div class="step-line"></div>
+    <div class="step" id="s3"><div class="step-num">3</div><span>情報入力</span></div>
+    <div class="step-line"></div>
+    <div class="step" id="s4"><div class="step-num">4</div><span>確認</span></div>
+    <div class="step-line"></div>
+    <div class="step" id="s5"><div class="step-num">5</div><span>完了</span></div>
+  </div>
+
+  <!-- STEP1: メニュー選択 -->
+  <div class="section-card" id="cardMenu">
+    <div class="section-head"><div class="section-num">1</div><h3>メニューを選んでください</h3></div>
+    <div class="section-body">
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </div>
+
+  <!-- STEP2: 日時選択 -->
+  <div class="section-card disabled" id="cardDate">
+    <div class="section-head"><div class="section-num">2</div><h3 id="dateHeadTitle">日時を選んでください</h3></div>
+    <div class="week-nav">
+      <button class="week-btn" id="prevBtn" onclick="changeWeek(-1)">‹</button>
+      <span class="week-label" id="weekLabel"></span>
+      <button class="week-btn" onclick="changeWeek(1)">›</button>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr id="tableHead"></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-box l-avail"></div>◎ 予約可</div>
+      <div class="legend-item"><div class="legend-box l-noroom"></div>△ 時間不足</div>
+      <div class="legend-item"><div class="legend-box l-unavail"></div>✕ 予約不可</div>
+      <div class="legend-item"><div class="legend-box l-picked"></div>選択中</div>
+    </div>
+  </div>
+
+  <!-- STEP3: 情報入力 -->
+  <div class="section-card disabled" id="cardForm">
+    <div class="section-head"><div class="section-num">3</div><h3>お客様情報を入力してください</h3></div>
+    <div class="section-body">
+      <div class="selected-summary" id="selectedSummary"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">お名前 <span class="form-req">必須</span></label><input class="form-input" id="fn" type="text" placeholder="山田 花子"></div>
+        <div class="form-group"><label class="form-label">フリガナ</label><input class="form-input" id="fk" type="text" placeholder="ヤマダ ハナコ"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">電話番号 <span class="form-req">必須</span></label><input class="form-input" id="ft" type="tel" placeholder="090-0000-0000"></div>
+        <div class="form-group"><label class="form-label">メールアドレス</label><input class="form-input" id="fm" type="email" placeholder="example@mail.com"></div>
+      </div>
+      <div class="form-group"><label class="form-label">ご訪問希望</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="visit" value="店舗"> 店舗</label>
+          <label class="radio-item"><input type="radio" name="visit" value="ご自宅" checked> ご自宅</label>
+          <label class="radio-item"><input type="radio" name="visit" value="施設"> 施設</label>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">ご要望・ご質問</label><textarea class="form-textarea" id="fmemo" placeholder="お気軽にお書きください"></textarea></div>
+      <button class="btn-confirm" onclick="openConfirm()">内容を確認する →</button>
+      <p class="form-note">次の画面で最終確認があります</p>
+    </div>
+  </div>
+</div>
+
+<!-- 確認モーダル -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>ご予約内容の確認</h3>
+      <p>以下の内容でよろしければ「予約を確定する」を押してください</p>
+    </div>
+    <div class="modal-body" id="confirmBody"></div>
+    <div class="modal-footer">
+      <button class="btn-modal-cancel" onclick="closeConfirm()">← 修正する</button>
+      <button class="btn-modal-ok" onclick="finalSubmit()">予約を確定する ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── メニュー定義（所要時間は30分単位のコマ数）──
+const MENUS = [
+  { id:'facial',  name:'フェイシャルエステ',   detail:'約60分 ／ 5,500円', mins:60,  slots:2,
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M9 8c.5-1.5 3-1.5 3 0s-2.5 2-3 4h3"/><path d="M5 20c.5-3 2.5-5 7-5s6.5 2 7 5"/></svg>` },
+  { id:'hand',    name:'ハンドトリートメント', detail:'約30分 ／ 3,300円', mins:30,  slots:1,
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 11V8a2 2 0 0 0-4 0v3"/><path d="M14 11V7a2 2 0 0 0-4 0v4"/><path d="M10 11V9a2 2 0 0 0-4 0v5a7 7 0 0 0 14 0v-3a2 2 0 0 0-4 0"/></svg>` },
+  { id:'foot',    name:'フットトリートメント', detail:'約30分 ／ 3,300円', mins:30,  slots:1,
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-1.5 0-3-1-3-3V9c0-2.8 2-5 5-5h.5C14 4 16 6.2 16 9v1"/><path d="M9 19h6c1.7 0 3-1.3 3-3v-3c0-1.7-1.3-3-3-3h-2"/><circle cx="9.5" cy="9.5" r="0.5" fill="currentColor"/></svg>` },
+  { id:'head',    name:'ヘッドトリートメント', detail:'約30分 ／ 3,300円', mins:30,  slots:1,
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3C8.13 3 5 6.13 5 10c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-1.26A7 7 0 0 0 12 3z"/><path d="M9 21h6"/><path d="M9 17v4"/><path d="M15 17v4"/><path d="M9.5 10c0-1.38.9-2.5 2.5-2.5"/></svg>` },
+  { id:'nail',    name:'ネイルケア',           detail:'約45分 ／ 各種', mins:45,  slots:2,
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 5c0-1.1.9-2 2-2h6a2 2 0 0 1 2 2v10a5 5 0 0 1-10 0V5z"/><path d="M9 5h6"/><path d="M12 14v3"/></svg>` },
+  { id:'lymph',   name:'リンパドレナージュ',   detail:'約60分 ／ 5,500円', mins:60,  slots:2,
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22c-4 0-7-3-7-7 0-2.5 1.5-4.5 3-6l4-5 4 5c1.5 1.5 3 3.5 3 6 0 4-3 7-7 7z"/><path d="M12 22v-8"/><path d="M9 16c1-1 3-1 3 0"/></svg>` },
+  { id:'set',     name:'セットメニュー',       detail:'約90分 ／ 7,500円', mins:90,  slots:3,
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7"/><path d="M17 17l2 2 4-4"/></svg>` },
+];
+
+const DAYS=['日','月','火','水','木','金','土'];
+const today=new Date(); today.setHours(0,0,0,0);
+
+function getSlots(){return JSON.parse(localStorage.getItem('arcaluce_slots')||'{}');}
+function saveSlots(d){localStorage.setItem('arcaluce_slots',JSON.stringify(d));}
+function getReservations(){return JSON.parse(localStorage.getItem('arcaluce_reservations')||'[]');}
+function saveReservations(d){localStorage.setItem('arcaluce_reservations',JSON.stringify(d));}
+
+let selMenu=null, selDate=null, selTime=null, weekOffset=0;
+
+// ── STEP1: メニュー描画 ──
+function renderMenus(){
+  document.getElementById('menuGrid').innerHTML = MENUS.map(m=>`
+    <div class="menu-option${selMenu&&selMenu.id===m.id?' selected':''}" onclick="pickMenu('${m.id}')">
+      <div class="menu-icon">${m.icon}</div>
+      <div class="menu-info">
+        <div class="menu-name">${m.name}</div>
+        <div class="menu-detail">${m.detail}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function pickMenu(id){
+  selMenu = MENUS.find(m=>m.id===id);
+  selDate=null; selTime=null;
+  renderMenus();
+  // STEP2を有効化
+  document.getElementById('cardDate').classList.remove('disabled');
+  document.getElementById('cardForm').classList.add('disabled');
+  document.getElementById('dateHeadTitle').textContent=`日時を選んでください（${selMenu.name} / ${selMenu.mins}分）`;
+  document.getElementById('s1').classList.remove('active'); document.getElementById('s1').classList.add('done');
+  document.getElementById('s2').classList.add('active');
+  renderTable();
+  document.getElementById('cardDate').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── STEP2: テーブル ──
+function dateKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+
+// 全時間リスト（10:00〜18:00）
+const ALL_TIMES=[];
+for(let h=10;h<=18;h++){ALL_TIMES.push(`${h}:00`);if(h<18)ALL_TIMES.push(`${h}:30`);}
+
+// 連続して必要コマ数が空いているか確認
+function hasRoom(key, startTime, needSlots){
+  const slots=getSlots();
+  const daySlots=slots[key]||{};
+  const startIdx=ALL_TIMES.indexOf(startTime);
+  if(startIdx===-1||startIdx+needSlots>ALL_TIMES.length)return false;
+  for(let i=0;i<needSlots;i++){
+    const t=ALL_TIMES[startIdx+i];
+    if((daySlots[t]||'unavailable')!=='available')return false;
+  }
+  return true;
+}
+
+function changeWeek(dir){
+  weekOffset+=dir;
+  if(weekOffset<0)weekOffset=0;
+  renderTable();
+}
+
+function renderTable(){
+  if(!selMenu)return;
+  const start=addDays(today,weekOffset*7);
+  const end=addDays(start,6);
+  const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
+  document.getElementById('weekLabel').textContent=`${fmt(start)} 〜 ${fmt(end)}`;
+  document.getElementById('prevBtn').disabled=(weekOffset===0);
+
+  let head=`<th class="th-time"></th>`;
+  for(let i=0;i<7;i++){
+    const d=addDays(start,i);
+    const dow=d.getDay();
+    const isToday=d.getTime()===today.getTime();
+    let cls='th-date';
+    if(dow===0)cls+=' sun';if(dow===6)cls+=' sat';if(isToday)cls+=' today';
+    head+=`<th class="${cls}"><div class="dow">${DAYS[dow]}</div><div class="day">${d.getDate()}日</div></th>`;
+  }
+  document.getElementById('tableHead').innerHTML=head;
+
+  let body='';
+  ALL_TIMES.forEach(t=>{
+    body+=`<tr><td class="td-time">${t}</td>`;
+    for(let i=0;i<7;i++){
+      const d=addDays(start,i);
+      const isPast=d<today;
+      const key=dateKey(d);
+      const slots=getSlots();
+      const daySlots=slots[key]||{};
+      const status=daySlots[t]||'unavailable';
+      const isAvail=!isPast&&status==='available';
+      const isSel=key===selDate&&t===selTime;
+
+      if(isAvail){
+        const room=hasRoom(key,t,selMenu.slots);
+        if(room){
+          body+=`<td class="slot-td"><div class="slot-avail${isSel?' picked':''}" onclick="pickTime('${key}','${t}')"><span class="mark">◎</span></div></td>`;
+        } else {
+          // 空き枠だが後続コマが足りない
+          body+=`<td class="slot-td"><div class="slot-avail no-room" title="${selMenu.mins}分の時間が確保できません"><span class="mark">△</span></div></td>`;
+        }
+      } else {
+        body+=`<td class="slot-td"><div class="slot-unavail"><span class="mark">✕</span></div></td>`;
+      }
+    }
+    body+=`</tr>`;
+  });
+  document.getElementById('tableBody').innerHTML=body;
+}
+
+function pickTime(key,time){
+  selDate=key; selTime=time;
+  renderTable();
+  const [y,m,d]=key.split('-');
+  const dateObj=new Date(parseInt(y),parseInt(m)-1,parseInt(d));
+  const dow=DAYS[dateObj.getDay()];
+  const dateStr=`${parseInt(m)}月${parseInt(d)}日（${dow}）`;
+
+  document.getElementById('selectedSummary').innerHTML=
+    `<span>🎯 <strong>${selMenu.name}</strong></span><span>📅 <strong>${dateStr}</strong></span><span>🕐 <strong>${time}</strong></span>`;
+
+  document.getElementById('cardForm').classList.remove('disabled');
+  document.getElementById('s2').classList.remove('active'); document.getElementById('s2').classList.add('done');
+  document.getElementById('s3').classList.add('active');
+  document.getElementById('cardForm').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── STEP3→確認モーダル ──
+function getVisit(){return document.querySelector('input[name="visit"]:checked')?.value||'ご自宅';}
+
+function openConfirm(){
+  const name=document.getElementById('fn').value.trim();
+  const tel=document.getElementById('ft').value.trim();
+  if(!name||!tel){alert('お名前と電話番号は必須です。');return;}
+  if(!selDate||!selTime||!selMenu){alert('日時とメニューを選択してください。');return;}
+
+  const [y,m,d]=selDate.split('-');
+  const dateObj=new Date(parseInt(y),parseInt(m)-1,parseInt(d));
+  const dow=DAYS[dateObj.getDay()];
+  const dateStr=`${parseInt(y)}年${parseInt(m)}月${parseInt(d)}日（${dow}）`;
+  const endIdx=ALL_TIMES.indexOf(selTime)+selMenu.slots;
+  const endTime=ALL_TIMES[endIdx]||'18:30';
+
+  const rows=[
+    ['メニュー',`<strong>${selMenu.name}</strong>（${selMenu.mins}分）`],
+    ['ご予約日時',`<strong>${dateStr}</strong>`],
+    ['時間',`<strong>${selTime} 〜 ${endTime}</strong>`],
+    ['お名前',name+(document.getElementById('fk').value?' ／ '+document.getElementById('fk').value:'')],
+    ['電話番号',tel],
+    ['メール',document.getElementById('fm').value||'（未入力）'],
+    ['ご訪問',getVisit()],
+    ['ご要望',document.getElementById('fmemo').value||'（なし）'],
+  ];
+  document.getElementById('confirmBody').innerHTML=rows.map(([l,v])=>
+    `<div class="confirm-row"><span class="confirm-label">${l}</span><span class="confirm-val">${v}</span></div>`).join('');
+  document.getElementById('modalBg').classList.add('show');
+  document.getElementById('s3').classList.remove('active'); document.getElementById('s3').classList.add('done');
+  document.getElementById('s4').classList.add('active');
+}
+
+function closeConfirm(){
+  document.getElementById('modalBg').classList.remove('show');
+  document.getElementById('s4').classList.remove('active');
+  document.getElementById('s3').classList.remove('done'); document.getElementById('s3').classList.add('active');
+}
+
+function finalSubmit(){
+  // 使用するコマを全部✕にする
+  const slots=getSlots();
+  const startIdx=ALL_TIMES.indexOf(selTime);
+  if(!slots[selDate])slots[selDate]={};
+  for(let i=0;i<selMenu.slots;i++){
+    const t=ALL_TIMES[startIdx+i];
+    if(t)slots[selDate][t]='unavailable';
+  }
+  saveSlots(slots);
+
+  // 予約データ保存
+  const [y,m,d]=selDate.split('-');
+  const dateObj=new Date(parseInt(y),parseInt(m)-1,parseInt(d));
+  const dow=DAYS[dateObj.getDay()];
+  const endIdx=startIdx+selMenu.slots;
+  const endTime=ALL_TIMES[endIdx]||'18:30';
+  const reservations=getReservations();
+  reservations.unshift({
+    id:Date.now(),
+    dateKey:selDate,
+    dateStr:`${parseInt(y)}年${parseInt(m)}月${parseInt(d)}日（${dow}）`,
+    time:selTime,
+    endTime,
+    name:document.getElementById('fn').value.trim(),
+    kana:document.getElementById('fk').value.trim(),
+    tel:document.getElementById('ft').value.trim(),
+    email:document.getElementById('fm').value.trim(),
+    service:selMenu.name,
+    mins:selMenu.mins,
+    visit:getVisit(),
+    memo:document.getElementById('fmemo').value.trim(),
+    createdAt:new Date().toLocaleString('ja-JP'),
+    status:'未確認'
+  });
+  saveReservations(reservations);
+  // EmailJSで通知メール送信
+  if(EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY'){
+    emailjs.init({publicKey: EMAILJS_PUBLIC_KEY});
+    const [y,m,d2]=selDate.split('-');
+    const dateObj2=new Date(parseInt(y),parseInt(m)-1,parseInt(d2));
+    const dow2=DAYS[dateObj2.getDay()];
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_name:     '杉浦 良子',
+      service:     selMenu.name,
+      date:        `${parseInt(y)}年${parseInt(m)}月${parseInt(d2)}日（${dow2}）`,
+      time:        selTime + '〜' + (ALL_TIMES[ALL_TIMES.indexOf(selTime)+selMenu.slots]||'18:30'),
+      customer:    document.getElementById('fn').value.trim(),
+      tel:         document.getElementById('ft').value.trim(),
+      email:       document.getElementById('fm').value.trim()||'未入力',
+      visit:       getVisit(),
+      memo:        document.getElementById('fmemo').value.trim()||'なし',
+    }).catch(e=>console.warn('EmailJS送信エラー:',e));
+  }
+  location.href='thanks.html';
+}
+
+renderMenus();
+renderTable();
+</script>
+</body>
+</html>

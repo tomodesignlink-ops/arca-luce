@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCA LUCE | 管理画面</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --sage:#7a9e8e;--sage-dark:#5c7a6a;--sage-light:#a8c5b5;--sage-bg:#eef5f2;
+  --cream:#f5f0e8;--cream-dark:#ede8df;--warm-white:#faf8f5;
+  --text-dark:#2c2520;--text-mid:#5a5450;--text-light:#9a9490;
+  --avail:#2a7a5a;--avail-bg:#e8f5f0;--avail-border:#a8d8c8;
+  --red:#c0392b;--red-light:#fdf0ee;
+}
+html,body{height:100%;background:#f0ece4;font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--text-dark);}
+
+/* LOGIN */
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.login-box{background:white;border-radius:1rem;padding:3rem 2.5rem;width:min(340px,90vw);text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.07);}
+.login-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;letter-spacing:0.15em;margin-bottom:0.3rem;}
+.login-sub{font-size:1.02rem;letter-spacing:0.3em;color:var(--text-light);margin-bottom:2rem;}
+.login-input{width:100%;padding:0.75rem 1rem;border:0.5px solid var(--cream-dark);border-radius:0.35rem;font-size:1.02rem;font-family:'Noto Sans JP',sans-serif;font-weight:400;outline:none;margin-bottom:0.75rem;transition:border-color 0.2s;}
+.login-input:focus{border-color:var(--sage);}
+.login-btn{width:100%;background:var(--sage);color:white;border:none;padding:0.85rem;border-radius:2rem;font-size:1.14rem;letter-spacing:0.15em;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:background 0.2s;}
+.login-btn:hover{background:var(--sage-dark);}
+.login-err{font-size:1.08rem;color:var(--red);margin-top:0.5rem;display:none;}
+.login-hint{font-size:1.02rem;color:var(--text-light);margin-top:1rem;}
+
+/* ADMIN */
+#adminScreen{display:none;min-height:100vh;}
+.admin-header{background:white;border-bottom:0.5px solid var(--cream-dark);padding:0 clamp(1rem,3vw,2rem);height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.admin-logo{font-family:'Cormorant Garamond',serif;font-size:1.05rem;letter-spacing:0.15em;}
+.admin-logo small{font-size:1.12rem;letter-spacing:0.28em;color:var(--text-light);margin-left:0.5rem;font-family:'Noto Sans JP',sans-serif;}
+.header-btns{display:flex;gap:0.6rem;align-items:center;}
+.btn-sm{padding:0.42rem 1rem;border-radius:2rem;font-size:0.87rem;letter-spacing:0.08em;cursor:pointer;font-family:'Noto Sans JP',sans-serif;border:none;transition:all 0.2s;white-space:nowrap;}
+.btn-sage{background:var(--sage);color:white;}
+.btn-sage:hover{background:var(--sage-dark);}
+.btn-outline{background:white;color:var(--text-mid);border:0.5px solid var(--cream-dark);}
+.btn-outline:hover{border-color:var(--sage);color:var(--sage);}
+.btn-red{background:var(--red-light);color:var(--red);border:0.5px solid #e8b4ae;}
+.btn-red:hover{background:var(--red);color:white;}
+
+/* タブ */
+.tab-bar{background:white;border-bottom:0.5px solid var(--cream-dark);display:flex;padding:0 clamp(1rem,3vw,2rem);}
+.tab{padding:0.9rem 1.5rem;font-size:0.94rem;letter-spacing:0.1em;color:var(--text-light);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;position:relative;}
+.tab.active{color:var(--sage);border-bottom-color:var(--sage);}
+.tab .badge{background:var(--red);color:white;font-size:1.14rem;padding:0.1rem 0.4rem;border-radius:2rem;margin-left:0.4rem;vertical-align:middle;}
+
+.admin-body{max-width:1000px;margin:0 auto;padding:clamp(1.2rem,3vw,2rem) clamp(0.75rem,3vw,1.5rem);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ── 予約一覧 ── */
+.reservations-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;}
+.reservations-header h2{font-family:'Noto Sans JP',serif;font-size:1.1rem;letter-spacing:0.1em;}
+.filter-bar{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.filter-btn{padding:0.35rem 0.85rem;border-radius:2rem;font-size:1.05rem;cursor:pointer;font-family:'Noto Sans JP',sans-serif;border:0.5px solid var(--cream-dark);background:white;color:var(--text-mid);transition:all 0.15s;}
+.filter-btn.active{background:var(--sage);border-color:var(--sage);color:white;}
+
+.no-reservations{text-align:center;padding:4rem 1rem;color:var(--text-light);font-size:1.02rem;}
+
+.reservation-card{background:white;border:0.5px solid var(--cream-dark);border-radius:0.75rem;margin-bottom:0.85rem;overflow:hidden;transition:box-shadow 0.15s;}
+.reservation-card:hover{box-shadow:0 2px 12px rgba(0,0,0,0.07);}
+.reservation-card.status-未確認{border-left:3px solid #e8a030;}
+.reservation-card.status-確認済{border-left:3px solid var(--sage);}
+.reservation-card.status-キャンセル{border-left:3px solid #ccc;opacity:0.7;}
+.res-head{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.2rem;background:var(--warm-white);border-bottom:0.5px solid var(--cream-dark);flex-wrap:wrap;gap:0.5rem;}
+.res-datetime{font-family:'Noto Sans JP',serif;font-size:1rem;color:var(--text-dark);letter-spacing:0.05em;}
+.res-name{font-size:1.05rem;color:var(--text-dark);}
+.res-id{font-size:1.02rem;color:var(--text-light);letter-spacing:0.1em;}
+.res-status{display:flex;align-items:center;gap:0.5rem;}
+.status-badge{font-size:1.02rem;padding:0.22rem 0.7rem;border-radius:2rem;font-weight:400;}
+.badge-未確認{background:#fff4e0;color:#c07020;border:0.5px solid #e8c080;}
+.badge-確認済{background:var(--avail-bg);color:var(--avail);border:0.5px solid var(--avail-border);}
+.badge-キャンセル{background:#f5f5f5;color:#999;border:0.5px solid #ddd;}
+.res-body{padding:0.9rem 1.2rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.5rem 1.5rem;}
+.res-field{display:flex;flex-direction:column;gap:0.15rem;}
+.res-field-label{font-size:1rem;letter-spacing:0.15em;color:var(--text-light);}
+.res-field-val{font-size:1.14rem;color:var(--text-dark);}
+.res-memo{padding:0 1.2rem 0.9rem;font-size:0.96rem;color:var(--text-mid);background:var(--cream);margin:0 -0.5px;border-top:0.5px solid var(--cream-dark);line-height:1.7;}
+.res-actions{padding:0.75rem 1.2rem;border-top:0.5px solid var(--cream-dark);display:flex;gap:0.5rem;flex-wrap:wrap;}
+
+/* ── 空き時間管理 ── */
+.info-bar{background:var(--sage-bg);border-radius:0.5rem;padding:0.75rem 1rem;font-size:1.1rem;color:var(--sage-dark);margin-bottom:1rem;line-height:1.7;}
+.bulk-bar{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.8rem;flex-wrap:wrap;}
+.bulk-bar span{font-size:1.08rem;color:var(--text-light);}
+.week-nav{display:flex;align-items:center;justify-content:space-between;background:white;border-radius:0.75rem 0.75rem 0 0;border:0.5px solid var(--cream-dark);border-bottom:none;padding:0.85rem 1.2rem;}
+.week-label{font-family:'Noto Sans JP',serif;font-size:1rem;letter-spacing:0.1em;}
+.week-btn{background:none;border:0.5px solid var(--cream-dark);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--text-mid);transition:all 0.15s;}
+.week-btn:hover{border-color:var(--sage);color:var(--sage);}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:0.5px solid var(--cream-dark);border-radius:0 0 0.75rem 0.75rem;background:white;box-shadow:0 2px 16px rgba(0,0,0,0.05);margin-bottom:1rem;}
+table.slots-table{width:100%;border-collapse:collapse;min-width:520px;}
+table.slots-table thead th{border-bottom:0.5px solid var(--cream-dark);font-weight:400;}
+.th-time{width:56px;background:var(--warm-white);border-right:0.5px solid var(--cream-dark);}
+.th-date{text-align:center;padding:0.6rem 0.3rem;min-width:80px;cursor:pointer;transition:background 0.15s;}
+.th-date:hover{background:var(--sage-bg);}
+.th-date .dow{font-size:1rem;letter-spacing:0.1em;color:var(--text-light);margin-bottom:0.1rem;}
+.th-date .day{font-family:'Noto Sans JP',serif;font-size:1.2rem;line-height:1;}
+.th-date .month{font-size:1.12rem;color:var(--text-light);margin-top:0.08rem;}
+.th-date.today .day{color:var(--sage);}
+.th-date.sun .dow,.th-date.sun .day{color:#c0392b;}
+.th-date.sat .dow,.th-date.sat .day{color:var(--sage-dark);}
+.th-date-sub{font-size:1.12rem;margin-top:0.18rem;letter-spacing:0.04em;}
+.td-time{background:var(--warm-white);border-right:0.5px solid var(--cream-dark);padding:0 0.3rem;text-align:center;font-family:'Noto Sans JP',serif;font-size:1.08rem;color:var(--text-light);white-space:nowrap;vertical-align:middle;}
+tbody tr{border-bottom:0.5px solid var(--cream-dark);}
+tbody tr:last-child{border-bottom:none;}
+.slot-td{padding:3px 3px;vertical-align:middle;}
+.slot-avail{display:flex;align-items:center;justify-content:center;min-height:38px;border-radius:6px;cursor:pointer;background:var(--avail-bg);border:1.5px solid var(--avail-border);transition:all 0.12s;}
+.slot-avail:hover{background:#d0eee4;}
+.slot-avail .mark{font-size:1rem;color:var(--avail);}
+.slot-unavail{display:flex;align-items:center;justify-content:center;min-height:38px;border-radius:6px;cursor:pointer;background:#f5f5f5;border:1.5px solid #e0e0e0;transition:all 0.12s;}
+.slot-unavail:hover{background:#fee;}
+.slot-unavail .mark{font-size:1rem;color:#ccc;}
+/* 予約済みは編集不可 */
+.slot-booked{display:flex;align-items:center;justify-content:center;min-height:38px;border-radius:6px;background:#fff0e0;border:1.5px solid #e8c080;cursor:not-allowed;}
+.slot-booked .mark{font-size:1.05rem;color:#c07020;letter-spacing:0.05em;}
+.save-bar{display:flex;align-items:center;justify-content:flex-end;gap:0.75rem;}
+.save-msg{font-size:1.1rem;color:var(--sage);opacity:0;transition:opacity 0.4s;}
+.save-msg.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <p class="login-logo">ARCA LUCE</p>
+    <p class="login-sub">管 理 画 面</p>
+    <input class="login-input" type="text" id="loginId" placeholder="管理者ID" autocomplete="off">
+    <input class="login-input" type="password" id="loginPw" placeholder="パスワード" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">ログイン</button>
+    <p class="login-err" id="loginErr">IDまたはパスワードが違います</p>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminScreen">
+  <div class="admin-header">
+    <div class="admin-logo">ARCA LUCE <small>管 理 画 面</small></div>
+    <div class="header-btns">
+      <a href="reserve.html" target="_blank"><button class="btn-sm btn-outline">予約ページ確認</button></a>
+      <button class="btn-sm btn-red" onclick="doLogout()">ログアウト</button>
+    </div>
+  </div>
+
+  <!-- タブ -->
+  <div class="tab-bar">
+    <div class="tab active" id="tab-res" onclick="switchTab('res')">予約一覧 <span class="badge" id="newBadge" style="display:none">0</span></div>
+    <div class="tab" id="tab-slots" onclick="switchTab('slots')">空き時間の管理</div>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- ── 予約一覧 ── -->
+    <div class="tab-panel active" id="panel-res">
+      <div class="reservations-header">
+        <h2>予約一覧</h2>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterRes('all',this)">すべて</button>
+          <button class="filter-btn" onclick="filterRes('未確認',this)">未確認</button>
+          <button class="filter-btn" onclick="filterRes('確認済',this)">確認済</button>
+          <button class="filter-btn" onclick="filterRes('キャンセル',this)">キャンセル</button>
+        </div>
+      </div>
+      <div id="resList"></div>
+    </div>
+
+    <!-- ── 空き時間管理 ── -->
+    <div class="tab-panel" id="panel-slots">
+      <div class="info-bar">
+        📅 セルをクリックすると ◎ ↔ ✕ が切り替わります。<strong style="color:#c07020">🔒 予約済み</strong>の枠は変更できません。変更後は「保存する」を押してください。<br>
+        日付ヘッダーをクリックするとその日をまとめて切り替えできます。
+      </div>
+      <div class="bulk-bar">
+        <span>今週まとめて：</span>
+        <button class="btn-sm btn-sage" onclick="setWeekAll('available')">全◎にする</button>
+        <button class="btn-sm btn-red" onclick="setWeekAll('unavailable')">全✕にする</button>
+      </div>
+      <div class="week-nav">
+        <button class="week-btn" id="prevBtn" onclick="changeWeek(-1)">‹</button>
+        <span class="week-label" id="weekLabel"></span>
+        <button class="week-btn" onclick="changeWeek(1)">›</button>
+      </div>
+      <div class="table-wrap">
+        <table class="slots-table">
+          <thead><tr id="tableHead"></tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div class="save-bar">
+        <span class="save-msg" id="saveMsg">✓ 保存しました</span>
+        <button class="btn-sm btn-sage" onclick="saveSlots()">保存する</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const ADMIN_ID='admin', ADMIN_PW='arcaluce2024';
+const TIMES=[];
+for(let h=10;h<=18;h++){TIMES.push(`${h}:00`);if(h<18)TIMES.push(`${h}:30`);}
+const DAYS=['日','月','火','水','木','金','土'];
+const today=new Date(); today.setHours(0,0,0,0);
+let weekOffset=0;
+let editData={};
+let currentFilter='all';
+
+function getSlotsData(){return JSON.parse(localStorage.getItem('arcaluce_slots')||'{}');}
+function saveToStorage(d){localStorage.setItem('arcaluce_slots',JSON.stringify(d));}
+function getReservations(){return JSON.parse(localStorage.getItem('arcaluce_reservations')||'[]');}
+function saveReservations(d){localStorage.setItem('arcaluce_reservations',JSON.stringify(d));}
+
+function doLogin(){
+  if(document.getElementById('loginId').value===ADMIN_ID&&
+     document.getElementById('loginPw').value===ADMIN_PW){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminScreen').style.display='block';
+    editData=getSlotsData();
+    renderResList();
+    renderSlotsTable();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+function doLogout(){
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('adminScreen').style.display='none';
+}
+
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.getElementById('panel-'+t).classList.add('active');
+}
+
+// ── 予約一覧 ──
+function filterRes(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderResList();
+}
+
+function renderResList(){
+  const reservations=getReservations();
+  const newCount=reservations.filter(r=>r.status==='未確認').length;
+  const badge=document.getElementById('newBadge');
+  if(newCount>0){badge.style.display='inline';badge.textContent=newCount;}
+  else{badge.style.display='none';}
+
+  const filtered=currentFilter==='all'?reservations:reservations.filter(r=>r.status===currentFilter);
+  const el=document.getElementById('resList');
+
+  if(filtered.length===0){
+    el.innerHTML=`<div class="no-reservations">予約はまだありません</div>`;
+    return;
+  }
+
+  el.innerHTML=filtered.map(r=>`
+    <div class="reservation-card status-${r.status}" id="card-${r.id}">
+      <div class="res-head">
+        <div>
+          <div class="res-datetime">📅 ${r.dateStr}　🕐 ${r.time}</div>
+          <div class="res-name">${r.name}${r.kana?' （'+r.kana+'）':''} 様</div>
+        </div>
+        <div class="res-status">
+          <span class="status-badge badge-${r.status}">${r.status}</span>
+          <span class="res-id">No.${r.id}</span>
+        </div>
+      </div>
+      <div class="res-body">
+        <div class="res-field"><span class="res-field-label">TEL</span><span class="res-field-val">${r.tel}</span></div>
+        <div class="res-field"><span class="res-field-label">MAIL</span><span class="res-field-val">${r.email||'—'}</span></div>
+        <div class="res-field"><span class="res-field-label">サービス</span><span class="res-field-val">${r.service}</span></div>
+        <div class="res-field"><span class="res-field-label">ご訪問</span><span class="res-field-val">${r.visit}</span></div>
+        <div class="res-field"><span class="res-field-label">受付日時</span><span class="res-field-val">${r.createdAt}</span></div>
+      </div>
+      ${r.memo?`<div class="res-memo">💬 ${r.memo}</div>`:''}
+      <div class="res-actions">
+        ${r.status==='未確認'?`<button class="btn-sm btn-sage" onclick="updateStatus(${r.id},'確認済')">✓ 確認済にする</button>`:''}
+        ${r.status!=='キャンセル'?`<button class="btn-sm btn-outline" onclick="updateStatus(${r.id},'キャンセル')">キャンセル</button>`:''}
+        <button class="btn-sm btn-red" onclick="deleteRes(${r.id})">削除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateStatus(id,status){
+  const reservations=getReservations();
+  const idx=reservations.findIndex(r=>r.id===id);
+  if(idx===-1)return;
+  reservations[idx].status=status;
+  // キャンセルの場合は枠を◎に戻す
+  if(status==='キャンセル'){
+    const r=reservations[idx];
+    const slots=getSlotsData();
+    if(!slots[r.dateKey])slots[r.dateKey]={};
+    slots[r.dateKey][r.time]='available';
+    saveToStorage(slots);
+    editData=getSlotsData();
+  }
+  saveReservations(reservations);
+  renderResList();
+}
+
+function deleteRes(id){
+  if(!confirm('この予約を削除しますか？'))return;
+  const reservations=getReservations().filter(r=>r.id!==id);
+  saveReservations(reservations);
+  renderResList();
+}
+
+// ── 空き時間管理 ──
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function dateKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function getWeekStart(){return addDays(today,weekOffset*7);}
+
+function changeWeek(dir){
+  weekOffset+=dir;
+  if(weekOffset<0)weekOffset=0;
+  renderSlotsTable();
+}
+
+function isBooked(key,time){
+  const reservations=getReservations();
+  return reservations.some(r=>r.dateKey===key&&r.time===time&&r.status!=='キャンセル');
+}
+
+function getStatus(key,time){return (editData[key]&&editData[key][time])||'unavailable';}
+function setStatus(key,time,st){if(!editData[key])editData[key]={};editData[key][time]=st;}
+
+function toggle(key,time){
+  if(isBooked(key,time))return;
+  setStatus(key,time,getStatus(key,time)==='available'?'unavailable':'available');
+  renderSlotsTable();
+  document.getElementById('saveMsg').classList.remove('show');
+}
+
+function toggleDay(key){
+  const allAvail=TIMES.filter(t=>!isBooked(key,t)).every(t=>getStatus(key,t)==='available');
+  TIMES.forEach(t=>{if(!isBooked(key,t))setStatus(key,t,allAvail?'unavailable':'available');});
+  renderSlotsTable();
+  document.getElementById('saveMsg').classList.remove('show');
+}
+
+function setWeekAll(status){
+  const start=getWeekStart();
+  for(let i=0;i<7;i++){
+    const key=dateKey(addDays(start,i));
+    TIMES.forEach(t=>{if(!isBooked(key,t))setStatus(key,t,status);});
+  }
+  renderSlotsTable();
+  document.getElementById('saveMsg').classList.remove('show');
+}
+
+function renderSlotsTable(){
+  const start=getWeekStart();
+  const end=addDays(start,6);
+  const fmt=d=>`${d.getMonth()+1}/${d.getDate()}`;
+  document.getElementById('weekLabel').textContent=`${fmt(start)} 〜 ${fmt(end)}`;
+  document.getElementById('prevBtn').disabled=(weekOffset===0);
+
+  let head=`<th class="th-time"></th>`;
+  for(let i=0;i<7;i++){
+    const d=addDays(start,i);
+    const dow=d.getDay();
+    const key=dateKey(d);
+    const isToday=d.getTime()===today.getTime();
+    const availCount=TIMES.filter(t=>!isBooked(key,t)&&getStatus(key,t)==='available').length;
+    const bookedCount=TIMES.filter(t=>isBooked(key,t)).length;
+    let cls='th-date';
+    if(dow===0)cls+=' sun';
+    if(dow===6)cls+=' sat';
+    if(isToday)cls+=' today';
+    let sub=availCount>0?`<span style="color:var(--avail)">◎${availCount}</span>`:'';
+    if(bookedCount>0)sub+=`${sub?' ':''}<span style="color:#c07020">🔒${bookedCount}</span>`;
+    if(!sub)sub=`<span style="color:#ccc">休業</span>`;
+    head+=`<th class="${cls}" onclick="toggleDay('${key}')">
+      <div class="dow">${DAYS[dow]}</div>
+      <div class="day">${d.getDate()}日</div>
+      <div class="th-date-sub">${sub}</div>
+    </th>`;
+  }
+  document.getElementById('tableHead').innerHTML=head;
+
+  let body='';
+  TIMES.forEach(t=>{
+    body+=`<tr><td class="td-time">${t}</td>`;
+    for(let i=0;i<7;i++){
+      const d=addDays(start,i);
+      const key=dateKey(d);
+      const booked=isBooked(key,t);
+      if(booked){
+        const res=getReservations().find(r=>r.dateKey===key&&r.time===t&&r.status!=='キャンセル');
+        body+=`<td class="slot-td"><div class="slot-booked" title="${res?res.name+' 様':'予約済'}"><span class="mark">🔒予約済</span></div></td>`;
+      } else {
+        const st=getStatus(key,t);
+        if(st==='available'){
+          body+=`<td class="slot-td"><div class="slot-avail" onclick="toggle('${key}','${t}')"><span class="mark">◎</span></div></td>`;
+        } else {
+          body+=`<td class="slot-td"><div class="slot-unavail" onclick="toggle('${key}','${t}')"><span class="mark">✕</span></div></td>`;
+        }
+      }
+    }
+    body+=`</tr>`;
+  });
+  document.getElementById('tableBody').innerHTML=body;
+}
+
+function saveSlots(){
+  saveToStorage(editData);
+  const msg=document.getElementById('saveMsg');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'),2500);
+}
+</script>
+</body>
+</html>
