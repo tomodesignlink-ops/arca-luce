@@ -3,7 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARCA LUCE | 介護美容サロン</title>
+<title>ARCA LUCE（アルカ ルーチェ）｜名古屋市緑区の介護美容サロン・出張対応</title>
+<meta name="description" content="名古屋市緑区の介護美容サロン ARCA LUCE。介護福祉士・ケアビューティストが、フェイシャル・ハンドやフットのトリートメント・ネイルケアで、おひとりおひとりに寄り添います。ご自宅・施設への出張もご相談ください。">
+<meta name="theme-color" content="#faf8f5">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:site_name" content="ARCA LUCE">
+<meta property="og:title" content="ARCA LUCE｜名古屋市緑区の介護美容サロン">
+<meta property="og:description" content="美しく歳を重ねる。介護美容で、心に灯りを。出張対応もご相談ください。">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"ARCA LUCE（アルカ ルーチェ）","description":"介護福祉士・ケアビューティストによる介護美容サロン。出張対応あり。","telephone":"+81-90-3259-7059","email":"yoshiko.sugiura@arca-luce.com","address":{"@type":"PostalAddress","postalCode":"458-0847","addressRegion":"愛知県","addressLocality":"名古屋市緑区","streetAddress":"浦里5丁目190-4","addressCountry":"JP"}}</script>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
@@ -370,39 +379,163 @@ footer{background:#625750;color:rgba(255,255,255,0.55);padding:4rem 3rem 2rem;}
   .contact-form{padding:1.2rem;}
   .info-row{grid-template-columns:28px 80px 1fr;font-size:0.75rem;}
 }
+
+/* ══════════════════════════════════════════
+   REFINEMENT：読みやすさ・予約導線・スマホ最適化
+   （既存スタイルの後に重ねて上書き）
+══════════════════════════════════════════ */
+:root{--text-mid:#4f4944;--text-light:#6f6862;--sage-text:#4f6b5b;--sage-press:#4a6657;--bar-h:72px;}
+html{scroll-padding-top:72px;-webkit-text-size-adjust:100%;}
+body{font-size:1rem;line-height:1.8;overflow-wrap:break-word;}
+:focus-visible{outline:2px solid var(--sage-text);outline-offset:3px;}
+.fade-up{transform:translateY(16px);transition-duration:0.7s;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.scroll-line{animation:none;}}
+
+/* nav */
+.nav-logo span{font-size:0.75rem;color:var(--text-light);}
+.nav-links a{font-size:0.875rem;letter-spacing:0.08em;}
+.nav-links a:hover{color:var(--sage-text);}
+.nav-links a.nav-reserve{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 1.75rem;background:var(--sage-dark);color:#fff;font-size:0.875rem;letter-spacing:0.12em;font-weight:400;border-radius:2rem;}
+.nav-links a.nav-reserve:hover{background:var(--sage-press);color:#fff;}
+.nav-hamburger{min-width:44px;min-height:44px;align-items:center;}
+.nav-drawer a{display:flex;align-items:center;min-height:52px;padding:0;font-size:1rem;}
+.nav-drawer a.nav-reserve-drawer{justify-content:center;margin-top:1rem;border:none;border-radius:2rem;background:var(--sage-dark);color:#fff;letter-spacing:0.12em;}
+
+/* hero */
+.hero-overlay{background:linear-gradient(to right,rgba(28,34,24,0.42) 0%,rgba(40,52,34,0.55) 50%,rgba(72,88,52,0.84) 100%);}
+.hero-eyebrow span{font-size:0.75rem;}
+.hero-sub{font-size:1rem;}
+.hero-desc{font-size:1rem;font-weight:400;line-height:2;}
+.hero-title,.hero-desc{text-shadow:0 1px 14px rgba(0,0,0,0.28);}
+
+/* buttons */
+.btn-primary,.btn-outline,.btn-reserve-lg,.btn-line{display:inline-flex;align-items:center;justify-content:center;min-height:52px;font-size:1rem;letter-spacing:0.12em;font-weight:400;text-decoration:none;}
+.btn-primary,.btn-reserve-lg{background:var(--sage-dark);color:#fff;}
+.btn-primary:hover,.btn-reserve-lg:hover{background:var(--sage-press);}
+.btn-primary,.btn-outline,.btn-line{padding:0 2.5rem;}
+.btn-reserve-lg{padding:0 3rem;}
+#hero .btn-primary{background:#f6eedb;color:var(--text-dark);}
+#hero .btn-primary:hover{background:#fff;}
+.btn-line{border:1px solid var(--sage-dark);border-radius:2rem;color:var(--sage-dark);transition:background 0.4s;}
+.btn-line:hover{background:rgba(92,122,106,0.08);}
+.contact-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;}
+
+/* type */
+.section-eyebrow{font-size:0.875rem;color:var(--sage-text);}
+.section-title{font-weight:400;}
+.section-sub{font-size:0.875rem;letter-spacing:0.15em;}
+.concept-text h3{font-weight:400;}
+.concept-text p{font-size:1rem;line-height:2.1;}
+.concept-card-num{font-size:0.875rem;}
+.concept-card h4{font-size:1.125rem;letter-spacing:0.12em;}
+.concept-card p{font-size:1rem;line-height:1.9;}
+.staff-role,.staff-quals-label,.set-label{font-size:0.875rem;color:var(--sage-text);}
+.staff-name{font-weight:400;}
+.staff-title{font-size:1rem;}
+.staff-bio{font-size:1rem;line-height:2;}
+.staff-qual{font-size:0.875rem;padding:0.4rem 1rem;}
+
+/* menu */
+.menu-tab{min-height:48px;font-size:0.875rem;}
+.menu-item h4{font-size:1.125rem;}
+.menu-item p{font-size:1rem;color:var(--text-mid);line-height:1.8;}
+.menu-item-right{display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;}
+.menu-item-price,.menu-list-price{font-size:1.25rem;}
+.menu-item-time,.menu-list-desc,.set-time,.menu-note{font-size:0.875rem;}
+.menu-list-name{font-size:1.125rem;}
+.set-info h4{font-size:1.25rem;font-weight:400;}
+.set-info p{font-size:1rem;}
+
+/* contact */
+a.contact-card{text-decoration:none;color:inherit;transition:border-color 0.4s;}
+a.contact-card:hover{border-color:var(--sage-light);}
+.contact-card-label{font-size:0.875rem;letter-spacing:0.1em;color:var(--sage-text);}
+.contact-card-val{font-size:1rem;}
+a.contact-card[href^="tel"] .contact-card-val{font-size:1.25rem;letter-spacing:0.04em;}
+.contact-card-sub{font-size:0.875rem;}
+.contact-reserve-wrap p{font-size:1rem;}
+
+/* information */
+.info-label{font-size:0.875rem;letter-spacing:0.08em;}
+.info-val{font-size:1rem;overflow-wrap:anywhere;}
+.info-since{font-size:0.875rem;}
+
+/* footer */
+footer{color:rgba(255,255,255,0.8);}
+.footer-tagline,.footer-col-title{font-size:0.75rem;color:rgba(255,255,255,0.7);}
+.footer-desc{font-size:0.875rem;color:rgba(255,255,255,0.8);}
+.footer-links{gap:0;}
+.footer-links a{font-size:1rem;min-height:44px;color:rgba(255,255,255,0.85);}
+.footer-c-item{font-size:0.875rem;color:rgba(255,255,255,0.85);}
+.footer-c-item a{color:inherit;text-decoration:none;}
+.footer-sns a{width:44px;height:44px;color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.35);}
+.footer-bottom{font-size:0.875rem;color:rgba(255,255,255,0.72);align-items:center;flex-wrap:wrap;gap:0.75rem;}
+.footer-legal{display:flex;flex-wrap:wrap;gap:0.25rem 1.25rem;justify-content:flex-end;}
+.footer-legal a{display:inline-flex;align-items:center;min-height:44px;color:rgba(255,255,255,0.78);text-decoration:none;font-size:0.875rem;transition:color 0.4s;}
+.footer-legal a:hover{color:#fff;}
+
+/* スマホ固定予約バー */
+.reserve-bar{display:none;}
+
+@media(max-width:768px){
+  .nav-links a.nav-reserve{display:none;}
+  section{padding:4.5rem 0;}
+  .hero-sub{font-size:0.875rem;letter-spacing:0.25em;}
+  .hero-overlay{background:linear-gradient(to bottom,rgba(20,28,16,0.45) 0%,rgba(24,34,20,0.55) 40%,rgba(30,45,20,0.78) 75%,rgba(30,45,20,0.9) 100%);}
+  .hero-btns{width:100%;max-width:320px;}
+  .btn-primary,.btn-outline,.btn-reserve-lg,.btn-line{width:100%;max-width:360px;}
+  .contact-actions{flex-direction:column;align-items:center;}
+  .staff-bio br{display:none;}
+  .menu-tab{font-size:1rem;}
+  .menu-item{grid-template-columns:44px 1fr;}
+  .menu-item-right{grid-column:1/-1;flex-direction:row-reverse;justify-content:space-between;align-items:baseline;padding-top:0.75rem;border-top:0.5px solid var(--cream-dark);}
+  .contact-simple{grid-template-columns:1fr;gap:0.75rem;}
+  .contact-card{display:grid;grid-template-columns:44px 1fr;column-gap:1rem;row-gap:0.1rem;align-items:center;text-align:left;padding:1rem 1.25rem;}
+  .contact-card-icon{grid-row:1/4;}
+  .info-row{grid-template-columns:28px 1fr;row-gap:0.15rem;}
+  .info-icon{grid-row:1/3;}
+  .info-label,.info-val{grid-column:2;}
+  .footer-legal{justify-content:center;}
+  footer{padding-bottom:2rem;}
+  body{padding-bottom:calc(var(--bar-h) + env(safe-area-inset-bottom,0px));}
+  .reserve-bar{position:fixed;inset-inline:0;bottom:0;z-index:90;display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:0.5rem;padding:0.625rem 0.75rem calc(0.625rem + env(safe-area-inset-bottom,0px));background:rgba(250,248,245,0.97);backdrop-filter:blur(8px);border-top:1px solid var(--cream-dark);}
+  .reserve-bar__item{display:flex;align-items:center;justify-content:center;min-height:48px;border:1px solid var(--sage-dark);border-radius:1.5rem;color:var(--sage-dark);font-size:1rem;letter-spacing:0.08em;text-decoration:none;}
+  .reserve-bar__item--primary{background:var(--sage-dark);color:#fff;}
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
+<nav aria-label="メインメニュー">
   <div class="nav-logo">ARCA LUCE <span>介 護 美 容</span></div>
   <div class="nav-links">
-    <a href="#concept">Concept</a>
-    <a href="#staff">Staff</a>
-    <a href="#menu">Menu</a>
-    <a href="#contact">Contact</a>
-    <a href="#information">Information</a>
-    <button class="nav-reserve" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">RESERVE</button>
+    <a href="#concept">私たちの想い</a>
+    <a href="#staff">代表紹介</a>
+    <a href="#menu">メニュー・料金</a>
+    <a href="#contact">お問い合わせ</a>
+    <a href="#information">アクセス</a>
+    <a class="nav-reserve" href="reserve.html">ご予約</a>
   </div>
-  <button class="nav-hamburger" id="hamburger" aria-label="メニューを開く">
+  <button class="nav-hamburger" id="hamburger" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="navDrawer">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- モバイルドロワー -->
 <div class="nav-drawer" id="navDrawer">
-  <a href="#concept" onclick="closeDrawer()">Concept</a>
-  <a href="#staff" onclick="closeDrawer()">Staff</a>
-  <a href="#menu" onclick="closeDrawer()">Menu</a>
-  <a href="#contact" onclick="closeDrawer()">Contact</a>
-  <a href="#information" onclick="closeDrawer()">Information</a>
-  <button class="nav-reserve-drawer" onclick="closeDrawer();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">RESERVE</button>
+  <a href="#concept" onclick="closeDrawer()">私たちの想い</a>
+  <a href="#staff" onclick="closeDrawer()">代表紹介</a>
+  <a href="#menu" onclick="closeDrawer()">メニュー・料金</a>
+  <a href="#contact" onclick="closeDrawer()">お問い合わせ</a>
+  <a href="#information" onclick="closeDrawer()">アクセス</a>
+  <a class="nav-reserve-drawer" href="reserve.html">ネットで予約する</a>
 </div>
 
+<main>
 <!-- HERO -->
 <section id="hero">
-  <img src="home.jpg" alt="ホーム" class="hero-bg">
+  <img src="home.jpg" alt="" class="hero-bg" fetchpriority="high" decoding="async">
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-eyebrow"><span>CARE BEAUTY SALON</span></div>
@@ -410,8 +543,8 @@ footer{background:#625750;color:rgba(255,255,255,0.55);padding:4rem 3rem 2rem;}
     <h1 class="hero-title">介護美容で、<span style="color:#F4A793;">心</span>に灯りを。</h1>
     <p class="hero-desc">その方の人生に寄り添い、笑顔を取り戻す。<br>名古屋市緑区から、温かな美容のひとときをお届けします。</p>
     <div class="hero-btns">
-      <a href="#contact" class="btn-primary">RESERVE →</a>
-      <a href="#concept" class="btn-outline">CONCEPT</a>
+      <a href="reserve.html" class="btn-primary">ご予約はこちら</a>
+      <a href="#menu" class="btn-outline">メニュー・料金</a>
     </div>
   </div>
   <div class="hero-scroll">
@@ -429,7 +562,7 @@ footer{background:#625750;color:rgba(255,255,255,0.55);padding:4rem 3rem 2rem;}
     <div class="section-divider fade-up fade-up-delay-2"></div>
     <div class="concept-layout">
       <div class="concept-img-wrap fade-up">
-        <img src="logo.jpg" alt="葉っぱのロゴ" class="concept-img">
+        <img src="logo.jpg" alt="葉っぱのロゴ" class="concept-img" loading="lazy" decoding="async">
         <div class="concept-since"><small>SINCE</small><span>2026</span></div>
       </div>
       <div class="concept-text fade-up fade-up-delay-2">
@@ -560,6 +693,10 @@ footer{background:#625750;color:rgba(255,255,255,0.55);padding:4rem 3rem 2rem;}
       </div>
       <p class="menu-note">※ 表示価格はすべて税込です。出張対応・施設訪問もご相談ください。</p>
     </div>
+    <div class="contact-reserve-wrap">
+      <p>ご希望のメニューが決まりましたら、そのままご予約いただけます。</p>
+      <a href="reserve.html" class="btn-reserve-lg">ネットで予約する</a>
+    </div>
   </div>
 </section>
 
@@ -571,26 +708,29 @@ footer{background:#625750;color:rgba(255,255,255,0.55);padding:4rem 3rem 2rem;}
     <p class="section-sub fade-up fade-up-delay-2">お気軽にご相談ください</p>
     <div class="section-divider fade-up fade-up-delay-2"></div>
     <div class="contact-simple fade-up">
-      <div class="contact-card">
+      <a class="contact-card" href="tel:09032597059">
         <div class="contact-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 2.84h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg></div>
-        <span class="contact-card-label">TEL</span>
+        <span class="contact-card-label">お電話</span>
         <span class="contact-card-val">090-3259-7059</span>
-      </div>
-      <div class="contact-card">
+      </a>
+      <a class="contact-card" href="mailto:yoshiko.sugiura@arca-luce.com">
         <div class="contact-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-        <span class="contact-card-label">MAIL</span>
-        <span class="contact-card-val" style="font-size:0.72rem;">yoshiko.sugiura<br>@arca-luce.com</span>
-      </div>
+        <span class="contact-card-label">メール</span>
+        <span class="contact-card-val">yoshiko.sugiura<br>@arca-luce.com</span>
+      </a>
       <div class="contact-card">
         <div class="contact-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <span class="contact-card-label">HOURS</span>
+        <span class="contact-card-label">営業時間</span>
         <span class="contact-card-val">10:00 — 18:00</span>
         <span class="contact-card-sub">最終受付 17:00 ／ 不定休</span>
       </div>
     </div>
     <div class="contact-reserve-wrap fade-up fade-up-delay-2">
-      <p>オンライン予約はこちらから。<br>ご希望の日時をカレンダーでお選びいただけます。</p>
-      <a href="reserve.html" class="btn-reserve-lg">ご予約はこちら →</a>
+      <p>ネット予約は24時間ご利用いただけます。<br>ご希望の日時をカレンダーからお選びください。</p>
+      <div class="contact-actions">
+        <a href="reserve.html" class="btn-reserve-lg">ネットで予約する</a>
+        <a href="https://line.me/R/ti/p/@604nbtoo" class="btn-line" target="_blank" rel="noopener">LINEで相談する</a>
+      </div>
     </div>
   </div>
 </section>
@@ -615,11 +755,13 @@ footer{background:#625750;color:rgba(255,255,255,0.55);padding:4rem 3rem 2rem;}
         <div class="info-since"><span>Since 2026</span><span>介護美容サロン</span></div>
       </div>
       <div class="map-wrap fade-up fade-up-delay-2">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13059.784176226822!2d136.93454065506538!3d35.08308086457588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037b7e25d499bf%3A0x6f55b8c612d4f239!2z44CSNDU4LTA4NDcg5oSb55-l55yM5ZCN5Y-k5bGL5biC57eR5Yy65rWm6YeM77yV5LiB55uu77yR77yZ77yQ4oiS77yU!5e0!3m2!1sja!2sjp!4v1781359300912!5m2!1sja!2sjp" width="720" height="320" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe title="ARCA LUCEの所在地を示す地図" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13059.784176226822!2d136.93454065506538!3d35.08308086457588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037b7e25d499bf%3A0x6f55b8c612d4f239!2z44CSNDU4LTA4NDcg5oSb55-l55yM5ZCN5Y-k5bGL5biC57eR5Yy65rWm6YeM77yV5LiB55uu77yR77yZ77yQ4oiS77yU!5e0!3m2!1sja!2sjp!4v1781359300912!5m2!1sja!2sjp" width="720" height="320" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </div>
 </section>
+
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -633,42 +775,51 @@ footer{background:#625750;color:rgba(255,255,255,0.55);padding:4rem 3rem 2rem;}
       <div>
         <p class="footer-col-title">SITEMAP</p>
         <div class="footer-links">
-          <a href="#concept">Concept</a><a href="#staff">Staff</a><a href="#menu">Menu</a><a href="#contact">Contact</a><a href="#information">Information</a>
+          <a href="#concept">私たちの想い</a><a href="#staff">代表紹介</a><a href="#menu">メニュー・料金</a><a href="#contact">お問い合わせ</a><a href="#information">アクセス</a>
         </div>
       </div>
       <div>
         <p class="footer-col-title">CONTACT</p>
         <div class="footer-c-item"><span class="footer-c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><span>愛知県名古屋市緑区浦里5丁目190-4</span></div>
-        <div class="footer-c-item"><span class="footer-c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 2.84h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg></span><span></span>090-3259-7059</span></div>
-        <div class="footer-c-item"><span class="footer-c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><span></span>yoshiko.sugiura@arca-luce.com</span></div>
+        <div class="footer-c-item"><span class="footer-c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 2.84h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg></span><a href="tel:09032597059">090-3259-7059</a></div>
+        <div class="footer-c-item"><span class="footer-c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><a href="mailto:yoshiko.sugiura@arca-luce.com">yoshiko.sugiura@arca-luce.com</a></div>
         <div class="footer-sns">
-          <a href="#" title="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
-          <a href="https://line.me/R/ti/p/@604nbtoo" title="LINE"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
+          <a href="#" title="Instagram" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://line.me/R/ti/p/@604nbtoo" title="LINE" aria-label="LINE" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 ARCA LUCE. All rights reserved.</span>
-      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:flex-end;">
-        <a href="privacy.html" style="color:rgba(255,255,255,0.28);text-decoration:none;font-size:0.82rem;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.28)'">プライバシーポリシー</a>
-        <a href="terms.html" style="color:rgba(255,255,255,0.28);text-decoration:none;font-size:0.82rem;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.28)'">利用規約</a>
-        <a href="tokushoho.html" style="color:rgba(255,255,255,0.28);text-decoration:none;font-size:0.82rem;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.28)'">特定商取引法</a>
+      <div class="footer-legal">
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="terms.html">利用規約</a>
+        <a href="tokushoho.html">特定商取引法</a>
+      </div>
     </div>
   </div>
 </footer>
+
+<!-- スマホ用 固定予約バー -->
+<div class="reserve-bar" role="group" aria-label="ご予約・お問い合わせ">
+  <a class="reserve-bar__item" href="tel:09032597059">電話</a>
+  <a class="reserve-bar__item" href="https://line.me/R/ti/p/@604nbtoo" target="_blank" rel="noopener">LINE</a>
+  <a class="reserve-bar__item reserve-bar__item--primary" href="reserve.html">ネット予約</a>
+</div>
 
 <script>
 // ── ハンバーガーメニュー ──
 const hamburger = document.getElementById('hamburger');
 const navDrawer = document.getElementById('navDrawer');
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  navDrawer.classList.toggle('open');
-});
-function closeDrawer(){
-  hamburger.classList.remove('open');
-  navDrawer.classList.remove('open');
-}
+const setDrawer = (open) => {
+  hamburger.classList.toggle('open', open);
+  navDrawer.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', String(open));
+  hamburger.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+};
+hamburger.addEventListener('click', () => setDrawer(!navDrawer.classList.contains('open')));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setDrawer(false); });
+function closeDrawer(){ setDrawer(false); }
 
 // ── タブ切り替え ──
 function switchTab(idx){
